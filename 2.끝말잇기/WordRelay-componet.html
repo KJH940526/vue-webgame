@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!-- 팁) 태그를 먼저 작성하고 바뀌는 부분을 data로 만든다.-->
+    <div id="root">
+       
+        <!-- 같은 컴포넌트라고 데이터가 공유되는게 아니고 각자의 데이터를 가짐 -->
+        <!-- props 인접하지 않은 예시 -->
+        <word-relay start-word="제로초"></word-relay>
+        <word-relay start-word="초밥"></word-relay>
+        <word-relay start-word="바보"></word-relay>
+
+        <!-- 1) html 쓰듯이 낙타표기법이 아닌 케밥표기법을 사용해야한다. -->
+    </div>
+    <script>
+// 컴포넌트를 만드는 스크립트는 아래에 있는 Vue인스턴스를 생성하는 스크립트보다 상단에 있어야한다.
+
+
+        Vue.component("wordRelay",{ // 전역 컴포넌트
+//템플릿에서 형제태그가 3개 있는데 하나의 태그(부모태그)로 묶어줘야한다.
+            template: `
+        <div>
+            <div>{{word}}</div>
+                <form v-on:submit="onSubmitForm">
+                    <input type="text" ref="answer" v-model="value">
+                    <button type="submit">입력!</button>
+                </form>
+           <div>{{result}}</div>
+        </div>
+            `,
+
+       // <!-- 2) 자바스크립트 쪽에서는 자동으로 낙타표기법으로 받을 수 있다. -->
+            props:["start-word"],
+//기존 데이터는 객체형식으로 표현을 했는데, 
+//컴포넌트에서는 데이터를 함수형으로 만들어야한다.
+//객체를 돌려주는 함수로 만든다. 그 이유는 참조관계 때문이다.
+//컴포넌트 특성이 여러번 사용되는 것을 전제로 하기 때문이다.
+//새로운 객체를 만들어서 리턴하는 메소드
+            data(){
+                
+                //3) <!-- 정확히는 여기서 바뀜 -->
+                console.log(this);
+                console.log(this.startWord);
+                return {
+                    word: this.startWord,
+                    result: '',
+                    value: ''
+                }
+            },
+            methods:{
+                onSubmitForm(e){
+                    e.preventDefault();
+                    if(this.word[this.word.length -1 ] === this.value[0]){
+                        console.log(this.word[this.word.length-1]);
+                        this.result = "딩동댕"
+
+                        // 정답을 다시 World에 넣고
+                        this.word = this.value;
+
+                        // value를 비워준다
+                        this.value = "";
+                        
+                        console.log(this.$refs.answer);
+                        this.$refs.answer.focus()
+                    } else {
+                        this.result = "땡"
+                        this.value = "";
+                        this.$refs.answer.focus()
+                    }
+                }
+            }
+        })
+
+    </script>
+
+    <script>
+        const app = new Vue({
+            el: '#root',
+        })
+
+    </script>
+
+    <!-- 스크립트가 너무 많아지면 관리하기가 어려워지기 떄문에 웹팩을 사용한다.-->
+</body>
+</html>

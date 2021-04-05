@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>좋아요</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 형제 태그면서 '인접!'해야 적용이 된다-->
+        <!-- 형제 태그란 같은 깊이에 있는 태그를 말함! -->
+        <!-- v가 있는 속성들의 따움표 안에는 자바스크립트 코드를 사용가능-->
+        <div v-if="liked" v-on:click="onClickButton" >좋아요 눌렀음</div>
+        <!-- <div> 바보</div> -->  <!-- "인접"하지 않은 예시-->
+
+                          <!-- 버튼에 클릭이벤트를 추가함-->
+        <button v-else v-on:click="onClickButton">Like</button>
+    </div>
+</body>
+<script>
+    // 화면은 vue가 만들어주기 때문에 데이터 중심으로 생각하는게 중요하다.
+
+    //vue생성자로 컴포넌트, 템플릿으로 전환이 가능 
+    const app = new Vue({
+        el: "#root",
+        data: {
+            //vue가 관리해야는 데이터가 있는곳
+            liked: false,
+        },
+        methods: {
+            onClickButton(){
+    //vue에서 this는 data랑 methods를 가르킨다.
+                console.log(this);
+                this.liked = !this.liked
+            }
+        },
+        beforeMount() {
+            // console.log(this.data);
+            console.log(this.liked);
+            console.log(this);
+        },
+    });
+</script>
+</html>

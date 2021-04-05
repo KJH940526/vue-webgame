@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!-- 팁) 태그를 먼저 작성하고 바뀌는 부분을 data로 만든다.-->
+    <div id="root">
+        <div>{{word}}</div>
+        <form v-on:submit="onSubmitForm">
+            <input type="text" ref="answer" v-model="value">
+            <button type="submit">입력!</button>
+        </form>
+        <div>{{result}}</div>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#root',
+            data: {
+                word: "제로초",
+                result: '',
+                value: ''
+            },
+            methods: {
+                onSubmitForm(e){
+                    e.preventDefault();
+                    if(this.word[this.word.length -1 ] === this.value[0]){
+                        console.log(this.word[this.word.length-1]);
+                        this.result = "딩동댕"
+
+                        // 정답을 다시 World에 넣고
+                        this.word = this.value;
+
+                        // value를 비워준다
+                        this.value = "";
+                        
+                        console.log(this.$refs.answer);
+                        this.$refs.answer.focus()
+                    } else {
+                        this.result = "땡"
+                        this.value = "";
+                        this.$refs.answer.focus()
+                    }
+                } 
+            },
+        })
+
+    </script>
+</body>
+</html>

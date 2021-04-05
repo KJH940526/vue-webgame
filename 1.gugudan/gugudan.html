@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>{{ first }}곱하기 {{ second }}는?</div>
+        <!-- <div>더하기는 {{first + second}}</div> -->
+        <form v-on:submit="onSubmitForm"> 
+
+            <!-- ref를 통해서 vue가 부르는 이름을 정한다.-->
+            <input type="number" ref="answer" v-model="value">
+                                <!-- input태그의 value를 data에 있는 value랑 연결한다 -->
+            <button type="submit">입력</button>
+            <div>{{value}}</div>
+            <!-- 양방향 바인딩!! -->
+            <!-- v-model에서 input의 value를 data의 value에 연결!!-->
+        </form>
+        <div id="result">{{result}}</div>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#root',
+            data: {
+                // 2) 바뀌는 부분은 데이터에 있어야한다.
+                first: Math.ceil(Math.random() * 9),
+                second: Math.ceil(Math.random() * 9),
+
+                //인풋값
+                value: '',
+
+                //정답
+                result: '',
+                
+            },
+            methods: {
+                onSubmitForm(e){
+                    //페이지가 새로고침 되는걸 막아줌
+                    // vue나 리액트 같은 spa에서는 페이지 새로고침을 막아야한다
+                    e.preventDefault();
+                    console.log(e);
+                    console.log(this);
+                    console.log(this.first, this.second, this.value);
+                    console.log(this.first, this.second, parseInt(this.value));
+                    if(this.first * this.second === parseInt(this.value)){
+                        this.result = "정답"
+
+                        //문제를 제출하고 다음문제를 낸다!!
+                        //spa페이지에서는 화면을 바꿀 필요가 절대없다!!
+                        //화면은 v-if, v-show를 이용해서 통제한다!!
+                        //화면을 수정하지 않고 데이터를 수정한다!!
+                        this.first = Math.ceil(Math.random() * 9);
+                        this.second = Math.ceil(Math.random() * 9);
+                        this.value = '';
+
+                        // 포커스가 해제되는데 다시 포커스를 주기 위해서
+                        // 직접 태그에 접근해줘야할 떄 사용한다!!
+                        // 단, ref로 데이터 조작은 하지 말아야한다. 남용x
+                        // 화면이랑 데이터가 불일치되기 떄문에!!
+                        console.log(this.$refs.answer);
+                        this.$refs.answer.focus();
+                    } else {
+                        this.result = "땡"
+                        this.value = '';
+                        this.$refs.answer.focus();
+                    }
+                    
+                }
+            },
+        })
+
+        // Vue나 리액트 프로그래밍은 바뀌는 부분을 중점적으로 생각하는게 중요!!
+        // 1)예제에는 앞에 숫자, 뒤의 숫자, input, 결과 부분이 바뀐다.
+    </script>
+</body>
+</html>

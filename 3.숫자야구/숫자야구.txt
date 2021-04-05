@@ -1,0 +1,25 @@
+npm init으로 package.json을 생성한다
+package는 외부에서 사용하는 자바스크립트 코드의 버전을 관리해준다.
+
+
+숫자야구부터 스크립트로 뷰를 불러오지 않고 vue를 사용하기 위해서
+npm i vue를 통해서 vue를 설치한다.
+
+웹팩을 사용하기 위해서 
+npm i webpack webpack-cli -D 
+또는
+npm i webpack webpack-cli --save-dev
+로 해도 상관없다
+
+웹팩이랑 웹팩 CLI를 설치하는데 -D는 옵션으로 개발용으로 사용하겠다.
+vue는 개발할때나 배포할떄 둘다 필요하지만
+webpack, webpack-cli는 배포를 위한 보조도구인데, 개발할 때
+개발 완료된것을 웹팩처리해서 배포를 진행한다. 그래서 개발할때만 필요하고
+배포할때는 필요가 없다.
+
+main.js와 numberbalseball.vue를 실행하기 위해서 웹팩이 필요하다.
+그 두개를 합쳐서 /dist/app.js로 만들어줘야지 vue가 완성된다.
+
+package의 실행 스크립트 부분 webpack 돌려준다.
+
+
